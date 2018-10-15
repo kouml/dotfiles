@@ -1,0 +1,157 @@
+## alias configuration
+echo "loading common alias settings...."
+setopt complete_aliases     # aliased ls needs if file/dir completions work
+alias la="ls -a"
+alias lf="ls -F"
+alias ll="ls -la"
+
+alias du="du -h"
+alias df="df -h"
+
+alias su="su -l"
+alias bi="bundle install"
+alias be="bundle exec"
+
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+alias pwdc="pwd | pbcopy"
+alias today='date +%Y%m%d'
+alias tdbl='VAR=`date +%Y%m%d`|touch $VAR.md|mou $VAR.md'
+
+alias py2='source ~/.pyenv/versions/anaconda3-2.3.0/bin/activate py27'
+alias py3='source ~/.pyenv/versions/anaconda3-2.3.0/bin/deactivate'
+alias mou='open -a "Mou"'
+alias emacs="TERM=xterm-256color /usr/local/bin/emacs"
+alias where="command -v"
+alias j="jobs -l"
+
+case "${OSTYPE}" in
+freebsd*|darwin*)
+    alias ls="ls -G -w"
+    ;;
+linux*)
+    alias ls="ls --color"
+    ;;
+esac
+
+alias rbe='rbenv exec bundle exec'
+alias rbi='rbenv exec bundle install --path vendor/bundle'
+alias bcp='bundle config BUNDLE_PATH vendor/bundle'
+
+## peco settings
+echo "loading peco settings...."
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+    tac="tac"
+    else
+    tac="tail -r"
+    fi
+    BUFFER=$(\history -n 1 | \
+            eval $tac | \
+            peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+function peco-cdr () {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+    if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+    fi
+    zle clear-screen
+}
+zle -N peco-cdr
+bindkey '^@' peco-cdr
+
+function peco-select-gitadd() {
+    local SELECTED_FILE_TO_ADD="$(git status --porcelain | \
+                                  peco --query "$LBUFFER" | \
+                                  awk -F ' ' '{print $NF}')"
+    if [ -n "$SELECTED_FILE_TO_ADD" ]; then
+      BUFFER="git add $(echo "$SELECTED_FILE_TO_ADD" | tr '\n' ' ')"
+      CURSOR=$#BUFFER
+    fi
+    zle accept-line
+    # zle clear-screen
+}
+zle -N peco-select-gitadd
+bindkey "^g^a" peco-select-gitadd
+
+
+##
+eval "$(plenv init -)"
+# users generic .zshrc file for zsh(1)
+eval "$(hub alias -s)"
+
+
+## Keybind configuration
+#
+# emacs like keybind (e.x. Ctrl-a gets to line head and Ctrl-e gets
+#   to end) and something additions
+#
+bindkey -e
+bindkey "^[[1~" beginning-of-line # Home gets to line head
+bindkey "^[[4~" end-of-line # End gets to line end
+bindkey "^[[3~" delete-char # Del
+
+# historical backward/forward search with linehead string binded to ^P/^N
+autoload history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^p" history-beginning-search-backward-end
+bindkey "^n" history-beginning-search-forward-end
+bindkey "\\ep" history-beginning-search-backward-end
+bindkey "\\en" history-beginning-search-forward-end
+
+# reverse menu completion binded to Shift-Tab
+bindkey "\e[Z" reverse-menu-complete
+
+
+## Command history configuration
+HISTFILE=${HOME}/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt hist_ignore_dups     # ignore duplication command history list
+setopt share_history        # share command history data
+
+
+## Completion configuration
+fpath=(${HOME}/.zsh/functions/Completion ${fpath})
+autoload -U compinit
+compinit -u
+
+
+## zsh editor
+autoload zed
+
+export PYENV_ROOT="${HOME}/.pyenv"
+if [ -d "${PYENV_ROOT}" ]; then
+  export PATH=${PYENV_ROOT}/bin:$PATH
+  eval "$(pyenv init -)"
+fi
+
+
+# Visual Studio Code
+vscode () {
+    if [[ $# = 0 ]]
+    then
+        open -a "Visual Studio Code"
+    else
+        [[ $1 = /* ]] && F="$1" || F="$PWD/${1#./}"
+        open -a "Visual Studio Code" --args "$F"
+    fi
+}
+
+# pyenv
+export PYENV_ROOT="${HOME}/.pyenv"
+export PATH=${PYENV_ROOT}/bin:$PATH
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export LESS="-R"
+export EDITOR=vim
