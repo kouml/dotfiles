@@ -40,6 +40,8 @@ alias rbe='rbenv exec bundle exec'
 alias rbi='rbenv exec bundle install --path vendor/bundle'
 alias bcp='bundle config BUNDLE_PATH vendor/bundle'
 
+alias rssh='rsync -av -e ssh'
+
 ## peco settings
 echo "loading peco settings...."
 function peco-select-history() {
@@ -155,3 +157,7 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export LESS="-R"
 export EDITOR=vim
+
+# goenv
+export PATH="$HOME/.goenv/bin:$PATH"
+eval "$(goenv init -)"
