@@ -42,6 +42,17 @@ alias bcp='bundle config BUNDLE_PATH vendor/bundle'
 
 alias rssh='rsync -av -e ssh'
 
+# alias (function) for each OS
+if [ "$(uname)" '==' "Darwin" ]; then
+    function dusort() {
+        du -sh $@ | gsort -hr
+    }
+elif [ "$(expr substr $(uname -s) 1 5)" '==' "Linux" ]; then
+    function dusort() {
+        du -sh $@ | sort -hr
+    }
+fi
+
 ## peco settings
 echo "loading peco settings...."
 function peco-select-history() {
