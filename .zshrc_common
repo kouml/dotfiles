@@ -170,5 +170,7 @@ export LESS="-R"
 export EDITOR=vim
 
 # goenv
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/.goenv/bin:$PATH"
 eval "$(goenv init -)"
