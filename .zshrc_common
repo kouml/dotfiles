@@ -164,6 +164,9 @@ eval "$(pyenv virtualenv-init -)"
 export LESS="-R"
 export EDITOR=vim
 
+# binary libraries installed by pyenv
+export PATH=${PYENV_VIRTUAL_ENV}/bin:$PATH
+
 # goenv
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
