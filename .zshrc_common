@@ -143,13 +143,6 @@ compinit -u
 ## zsh editor
 autoload zed
 
-export PYENV_ROOT="${HOME}/.pyenv"
-if [ -d "${PYENV_ROOT}" ]; then
-  export PATH=${PYENV_ROOT}/bin:$PATH
-  eval "$(pyenv init -)"
-fi
-
-
 # Visual Studio Code
 vscode () {
     if [[ $# = 0 ]]
@@ -163,8 +156,10 @@ vscode () {
 
 # pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
-export PATH=${PYENV_ROOT}/bin:$PATH
-eval "$(pyenv init -)"
+if [ -d "${PYENV_ROOT}" ]; then
+  export PATH=${PYENV_ROOT}/bin:$PATH
+  eval "$(pyenv init -)"
+fi
 eval "$(pyenv virtualenv-init -)"
 export LESS="-R"
 export EDITOR=vim
