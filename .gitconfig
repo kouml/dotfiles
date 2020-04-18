@@ -1,0 +1,27 @@
+[alias]
+    graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+    gr = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+    st = status
+    cm = commit
+    ck = checkout
+    stt = status -uno
+    difff = diff --word-diff
+[core]
+	editor = vscode
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = kouml
+	email = key.mtrgtring@gmail.com
+[push]
+	default = matching
+[url "git@repository.admin.h:/var/git/"]
+  insteadof = git://192.168.2.181/
+  insteadof = git://repository.admin.h/
+[http]
+	postBuffer = 524288000
+[credential]
+	helper = osxkeychain
