@@ -1,15 +1,8 @@
 # README
+my dotfiles for WSL/Darwin/Linux
 
-## list all dotfiles
+## Installation
 ```shell
-$ echo .*(.)
-.bashrc .gitconfig .gitignore .tmux.conf .vimrc .zpreztorc .zshrc .zshrc_common .zshrc_home .zshrc_office
+$ chmod +x install.sh
+$ ./install.sh
 ```
-
-## repo to local
-```shell
-$ echo .*(.)
-.bashrc .gitconfig .gitignore .tmux.conf .vimrc .zpreztorc .zshrc .zshrc_common .zshrc_home .zshrc_office
-```
-
-## local to repo
