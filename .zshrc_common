@@ -171,14 +171,8 @@ if [ `uname -r | grep -i 'microsoft'` ]; then
     export PATH=$PATH:$JAVA_HOME/jre/bin
 
     export PATH=$PATH:~/.local/bin/
-## Linux
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
-    alias ls="ls --color"
-    function dus() {
-        du -sh $@ | sort -hr
-    }
 ## Mac
-else
+elif [ `uname` = "Darwin" ]; then
     alias pwdc="pwd | pbcopy"
     alias ls="ls -G -w"
     function dus() {
@@ -189,4 +183,10 @@ else
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
     test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+## Linux
+else
+    alias ls="ls --color"
+    function dus() {
+        du -sh $@ | sort -hr
+    }
 fi
