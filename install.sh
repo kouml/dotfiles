@@ -15,9 +15,22 @@ confirm() {
     esac
 }
 
+install_prezto() {
+    DIR="$HOME/.zprezto"
+    if [ -d "$DIR" ]; then
+        echo "skip install zprezto"
+    else
+        echo "install zprezto"
+        git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+        chsh -s /bin/zsh
+    fi
+}
+
+
 if confirm ; then
     echo "setup in local"
-    cp .bashrc .tmux.conf .vimrc .zpreztorc .zshrc .zshrc_common .zshrc_home .zshrc_office ~
+    cp .bashrc .tmux.conf .vimrc .zpreztorc .zshrc .zshrc_common .zshrc_home .zshrc_office ~;
+    install_prezto;
 else
     echo "failed"
 fi
