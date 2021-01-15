@@ -157,6 +157,7 @@ export PATH="${HOME}/google-cloud-sdk/bin:$PATH"
 ## WSL
 if [ `uname -r | grep -i 'microsoft'` ]; then
     alias pwdc="pwd | clip.exe"
+    alias p="powershell.exe"
     export DOCKER_HOST=tcp://localhost:2375
     [[ -e ~/bin ]] && PATH=$PATH:~/bin
 
