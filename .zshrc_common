@@ -191,3 +191,30 @@ else
         du -sh $@ | sort -hr
     }
 fi
+
+typeset -U path PATH
+path=(
+	/opt/homebrew/bin(N-/)
+	/usr/local/bin(N-/)
+	$path
+)
+
+# As for python, arm python is not working well if you want pandas/numpy.
+# don't install pandas/numpy in arm brew.
+
+if [[ "${(L)$( uname -s )}" == darwin ]] && (( $+commands[arch] )); then
+	alias x86_brew="arch -arch x86_64 /usr/local/bin/brew"
+	alias arm_brew="/opt/homebrew/bin/brew"
+	alias x64='exec arch -arch x86_64 "$SHELL"'
+	alias a64='exec arch -arch arm64 "$SHELL"'
+	switch-arch() {
+		if  [[ "$(uname -m)" == arm64 ]]; then
+			arch=x86_64
+		elif [[ "$(uname -m)" == x86_64 ]]; then
+			arch=arm64e
+		fi
+		exec arch -arch $arch "$SHELL"
+	}
+fi
+
+setopt magic_equal_subst
