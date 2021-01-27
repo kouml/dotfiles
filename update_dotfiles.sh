@@ -26,11 +26,20 @@ install_prezto() {
     fi
 }
 
+update_profile_for_powershell() {
+    if [ `uname -r | grep -i 'microsoft'` ]; then
+        DIR="/mnt/c/Users/$(whoami)"
+        cp profile.ps1 $DIR
+        echo "updated profile.ps1 for powershell"
+    fi
+}
+
 
 if confirm ; then
     echo "setup in local"
     cp .bashrc .gitconfig .tmux.conf .vimrc .zpreztorc .zshrc .zshrc_common .zshrc_home .zshrc_office ~;
     install_prezto;
+    update_profile_for_powershell;
 else
     echo "failed"
 fi

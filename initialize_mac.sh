@@ -12,6 +12,17 @@ confirm() {
     esac
 }
 
+install_prezto() {
+    DIR="$HOME/.zprezto"
+    if [ -d "$DIR" ]; then
+        echo "skip install zprezto"
+    else
+        echo "install zprezto"
+        git clone --recursive https://github.com/sorin-ionescu/prezto.git "$HOME/.zprezto"
+        chsh -s /bin/zsh
+    fi
+}
+
 if confirm ; then
     echo "initialize mac after clean install"
     # install brew
