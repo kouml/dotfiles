@@ -78,7 +78,10 @@ bindkey "^g^a" peco-select-gitadd
 
 
 ## plenv
-eval "$(plenv init -)"
+if type plenv > /dev/null 2>&1; then
+    eval "$(plenv init -)"
+fi
+
 # users generic .zshrc file for zsh(1)
 eval "$(hub alias -s)"
 
@@ -148,7 +151,9 @@ export PATH=${PYENV_VIRTUAL_ENV}/bin:$PATH
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/.goenv/bin:$PATH"
-eval "$(goenv init -)"
+if type goenv > /dev/null 2>&1; then
+    eval "$(goenv init -)"
+fi
 
 # gcloud
 export PATH="${HOME}/google-cloud-sdk/bin:$PATH"
